@@ -7,6 +7,7 @@ import 'dotenv/config'
 import path from 'path'
 import errorMiddleware from "./middlewares/errorMiddleware"
 import HttpException from "./exceptions/HttpException"
+import swagger from './utils/swagger'
 
 const app: Express = express()
 
@@ -16,7 +17,17 @@ app.use(helmet())
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+swagger(app)
 
+/**
+ * @swagger
+ * /:
+ *  get:
+ *    description: test server
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ */
 app.get('/', (_req: Request, res: Response, _next) => {
   console.log('enter')
   res.json({
@@ -35,8 +46,8 @@ void async function(){
   mongoose.set('useUnifiedTopology', true)
   const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost/course-platform'
   await mongoose.connect(MONGODB_URL)
-  const PORT = process.env.PORT || 3001
-  app.listen(PORT, () => {
-    console.log(`Running on http://localhost:${PORT}`)
+  const port = process.env.PORT || 3001
+  app.listen(port, () => {
+    console.log(`Running on http://localhost:${port}`)
   })
 }()
