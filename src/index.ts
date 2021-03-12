@@ -1,13 +1,15 @@
-import express, {Express, Request, Response} from 'express'
+import express, {Express} from 'express'
 import mongoose from 'mongoose'
+import path from 'path'
 import cors from 'cors'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import 'dotenv/config'
-import path from 'path'
-import errorMiddleware from "./middlewares/errorMiddleware"
-import HttpException from "./exceptions/HttpException"
 import swagger from './utils/swagger'
+import test from "./routes/test"
+import session from './routes/session'
+import fallback from './routes/fallback'
+import errorMiddleware from "./middlewares/errorMiddleware"
 
 const app: Express = express()
 
@@ -19,26 +21,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 swagger(app)
 
-/**
- * @swagger
- * /:
- *  get:
- *    description: test server
- *    responses:
- *      '200':
- *        description: A successful response
- */
-app.get('/', (_req: Request, res: Response, _next) => {
-  console.log('enter')
-  res.json({
-    success: true,
-    data: 'hello world'
-  })
-})
-app.use((_req: Request, _res: Response, next) => {
-  const error = new HttpException(404, '未匹配该路由')
-  next(error)
-})
+app.get('/', test)
+app.use('/session', session)
+app.use(fallback)
 app.use(errorMiddleware)
 
 void async function(){

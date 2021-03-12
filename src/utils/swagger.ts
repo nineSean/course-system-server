@@ -22,8 +22,12 @@ const swaggerOptions = {
     ],
     tags: [
       {
-        name: 'user',
+        name: 'User',
         description: '用户操作'
+      },
+      {
+        name: 'Session',
+        description: '会话管理'
       }
     ],
   },
