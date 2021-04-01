@@ -1,5 +1,5 @@
 import express from 'express'
-import * as userController from '../controllers/user'
+import {login} from '../controllers/user'
 
 const router = express.Router()
 
@@ -49,6 +49,6 @@ const router = express.Router()
  *        description: 'conflict'
  *
  */
-router.post('/', userController.register)
+router.post('/', login)
 
 export default router

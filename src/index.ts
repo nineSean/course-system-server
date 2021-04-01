@@ -1,5 +1,4 @@
 import express, {Express} from 'express'
-import mongoose from 'mongoose'
 import path from 'path'
 import cors from 'cors'
 import morgan from 'morgan'
@@ -8,8 +7,10 @@ import 'dotenv/config'
 import swagger from './utils/swagger'
 import test from "./routes/test"
 import session from './routes/session'
+import user from './routes/user'
 import fallback from './routes/fallback'
 import errorMiddleware from "./middlewares/errorMiddleware"
+import connect from "./utils/connect"
 
 const app: Express = express()
 
@@ -23,16 +24,14 @@ swagger(app)
 
 app.get('/', test)
 app.use('/session', session)
+app.use('/user', user)
 app.use(fallback)
 app.use(errorMiddleware)
 
+const port = process.env.PORT || 8000
 void async function(){
-  mongoose.set('useNewUrlParser', true)
-  mongoose.set('useUnifiedTopology', true)
-  const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost/course-platform'
-  await mongoose.connect(MONGODB_URL)
-  const port = process.env.PORT || 3001
+  await connect()
   app.listen(port, () => {
-    console.log(`Running on http://localhost:${port}`)
+    console.log(`Running on ${port}`)
   })
 }()
