@@ -12,7 +12,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
     const user: IUserDocument = new User({username, password, confirmPassword, email})
     const existedUser: IUserDocument | null = await User.findOne({username: user.username})
-    if (existedUser) throw new HttpException(UNPROCESSABLE_ENTITY, '注册失败')
+    if (existedUser) throw new HttpException(UNPROCESSABLE_ENTITY, '用户已存在')
 
     await user.save()
     res.send({

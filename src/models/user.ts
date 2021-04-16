@@ -54,7 +54,7 @@ UserSchema.pre<IUserDocument>('save', async function (next: HookNextFunction) {
 UserSchema.static('login', async function (this:any, username: string, password: string): Promise<IUserDocument | null> {
   const user = await this.model('User').findOne({username})
   if (!user) return null
-  const Matched = bcrypt.compare(password, user.password)
+  const Matched = await bcrypt.compare(password, user.password)
   if (Matched) return user
   return null
 })

@@ -46,7 +46,7 @@ const router = express.Router()
  *
  */
 router.post('/', register)
-router.post('/validate', auth, (_req, res: Response) => {
+router.get('/', auth, (_req, res: Response) => {
   res.json({
     success: true,
     data: res.locals.user

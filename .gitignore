@@ -6,3 +6,4 @@ node_modules
 src/public/upload
 *demo.ts
 *demo.js
+dist
