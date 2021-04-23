@@ -8,9 +8,11 @@ import swagger from './utils/swagger'
 import test from "./routes/test"
 import session from './routes/session'
 import user from './routes/user'
+import slide from './routes/slide'
 import fallback from './routes/fallback'
 import errorMiddleware from "./middlewares/errorMiddleware"
 import connect from "./utils/connect"
+import {createSlides,} from './utils'
 
 const app: Express = express()
 
@@ -25,12 +27,14 @@ swagger(app)
 app.get('/', test)
 app.use('/session', session)
 app.use('/user', user)
+app.use('/slide', slide)
 app.use(fallback)
 app.use(errorMiddleware)
 
 const port = process.env.PORT || 8000
 void async function(){
   await connect()
+  await createSlides()
   app.listen(port, () => {
     console.log(`Running on ${port}`)
   })
