@@ -1,6 +1,17 @@
-import express, {Response} from 'express'
-import {register} from "../controllers/user"
+//@ts-ignore
+import express, {Request, Response, Express} from 'express'
+import {register, uploadAvatar} from "../controllers/user"
 import auth from "../middlewares/auth"
+import multer from "multer"
+import path from 'path'
+
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, '../public', 'upload'),
+  filename(_req: Request, file: Express.Multer.File, cb){
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({storage})
 
 const router = express.Router()
 
@@ -52,5 +63,6 @@ router.get('/', auth, (_req, res: Response) => {
     data: res.locals.user
   })
 })
+router.post('/avatar', upload.single('avatar'), uploadAvatar)
 
 export default router
