@@ -17,11 +17,11 @@ const router = express.Router()
 
 /**
  * @swagger
- * /session:
+ * /user:
  *  post:
  *    tags:
  *      - User
- *    summary: 用户登陆
+ *    summary: 用户注册
  *    description:
  *    requestBody:
  *      content:

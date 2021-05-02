@@ -9,7 +9,7 @@ const router = express.Router()
  *  post:
  *    tags:
  *      - Session
- *    summary: 用户注册
+ *    summary: 用户登录
  *    description:
  *    requestBody:
  *      content:
